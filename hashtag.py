@@ -10,8 +10,7 @@ def top_hashtag(fname, k):
     hashtags = []
     for o in json_data:
         for hasht in o["entities"]["hashtags"]:
-            for dic in hasht:
-                hashtags.append(dic['text'])
+            hashtags.append(hasht['text'])
 
 
     #hashtags = []
