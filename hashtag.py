@@ -1,21 +1,25 @@
 import operator 
 import json
 import collections
-def top_hashtag(x,i):
- with open(x, 'r') as handle:
-    json_data = [json.loads(line) for line in handle]
-
- ordre =[]
- for line in json_data :
-   for hasht in line["entities"]["hashtags"] :
-     ordre.append(hasht)
 
 
- hashtags=[]
- for dic in ordre:
-   hashtags.append(dic["text"])
- counter=collections.Counter(hashtags)
+def top_hashtag(fname, k):
+    with open(fname, 'r') as handle:
+        json_data = [json.loads(line) for line in handle]
 
- hasht = dict(sorted(counter.iteritems(), key=operator.itemgetter(1), reverse=True)[:i])
- print sorted(hasht.items(), key=lambda t: t[1], reverse=True)
+    hashtags = []
+    for o in json_data:
+        for hasht in o["entities"]["hashtags"]:
+            for dic in hasht:
+                hashtags.append(dic['text'])
+
+
+    #hashtags = []
+    #for dic in ordre:
+    #    hashtags.append(dic["text"])
+
+    counter = collections.Counter(hashtags)
+    hasht = dict(sorted(counter.iteritems(), key=operator.itemgetter(1),
+        reverse=True)[:k]
+    print sorted(hasht.items(), key=lambda t: t[1], reverse=True)
 
