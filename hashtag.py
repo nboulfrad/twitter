@@ -18,7 +18,6 @@ def top_hashtag(fname, k):
     #    hashtags.append(dic["text"])
 
     counter = collections.Counter(hashtags)
-    hasht = dict(sorted(counter.iteritems(), key=operator.itemgetter(1),
-        reverse=True)[:k]
+    hasht = dict(sorted(counter.iteritems(), key=operator.itemgetter(1), reverse=True)[:k]
     print sorted(hasht.items(), key=lambda t: t[1], reverse=True)
 
