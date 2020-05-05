@@ -4,37 +4,37 @@ import collections
 
 
 def topMentions(tweets, k):
-    
-
-    ordre =[]
+    mentions =[]
     for line in tweets :
         for men in line["entities"]["user_mentions"]:
-            ordre.append(men["name"])
+            mentions.append(men["name"])
 
-    counter = collections.Counter(ordre)
-    ment = dict(sorted(counter.iteritems(), key=operator.itemgetter(1), reverse=True)[:k])
-    ordred = sorted(ment.items(), key=lambda t: t[1], reverse=True)
-    return ordred
+    counter = collections.Counter(mentions)
+    #ment = dict(sorted(counter.iteritems(), key=operator.itemgetter(1), reverse=True)[:k])
+    #mentionsd = sorted(ment.items(), key=lambda t: t[1], reverse=True)
+    #return mentionsd
+    return counter.most_common(k)
 
 
 def topInfluents (tweets, k): 
     
-    ordre =[]
-    ordre1 ={}
-    ordre2 = {}
+    mentions = []
+    user_followers = {}
+    user_retweets = {}
 
     for line in tweets :
         for men in line["entities"]["user_mentions"] :
-            ordre.append(men["name"])
-        ordre1[line["user"]["name"]] = line["user"]["followers_count"]
-        ordre2[line["user"]["name"]] = line["retweet_count"]
+            mentions.append(men["name"])
+        user_followers[line["user"]["name"]] = line["user"]["followers_count"]
+        user_retweets[line["user"]["name"]] = line["retweet_count"]
     
-    counter = collections.Counter(ordre)
-    ment = dict(sorted(counter.iteritems(), key=operator.itemgetter(1), reverse=True)[:k])
-    menord = sorted(ment.items(), key=lambda t: t[1], reverse=True)
-    folord = sorted(ordre1.items(), key=lambda t: t[1], reverse=True)[:k]
-    # folord = sorted(ordre1.items(), key=lambda t: t[1])[len(ordre1)-300:len(ordre1)]
-    retord = sorted(ordre2.items(), key=lambda t: t[1], reverse=True)[:k]
+    counter = collections.Counter(mentions)
+    #ment = dict(sorted(counter.iteritems(), key=operator.itemgetter(1), reverse=True)[:k])
+    #menord = sorted(ment.items(), key=lambda t: t[1], reverse=True)
+    menrord = counter.most_common(k)
+    folord = sorted(user_followers.items(), key=lambda t: t[1], reverse=True)[:k]
+    # folord = sorted(user_followers.items(), key=lambda t: t[1])[len(user_followers)-300:len(user_followers)]
+    retord = sorted(user_retweets.items(), key=lambda t: t[1], reverse=True)[:k]
 
     # [(usen_name, count), (user_name, count)]
 
@@ -56,12 +56,12 @@ def topHashtags(tweets, k):
         for hasht in o["entities"]["hashtags"]:
             hashtags.append(hasht['text'])
 
-    ordre =[]
+    mentions =[]
     hasht = {}
     counter = collections.Counter(hashtags)
     hasht = dict(sorted(counter.iteritems(), key=operator.itemgetter(1),reverse=True)[:k])
-    ordre = sorted(hasht.items(), key=lambda t: t[1], reverse=True)
-    return ordre
+    mentions = sorted(hasht.items(), key=lambda t: t[1], reverse=True)
+    return mentions
 
 
 
